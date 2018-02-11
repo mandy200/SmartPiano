@@ -11,7 +11,7 @@ public class Pool {
 
     private static ArrayList<Connection> pool;
     private static String driver = "org.postgresql.Driver";
-    private static String url = "jdbc:postgresql://127.0.0.1:5432/db_crud_test"; //192.168.0.2
+    private static String url = "jdbc:postgresql://127.0.0.1:5432/db_smartpiano"; // 192.168.0.2
     private static String user = "suriya";
     private static String password = "azerty";
     private static int minConnection;

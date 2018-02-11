@@ -25,22 +25,23 @@ public class Crud  {
 	/**
 	 *  INSERT
 	 * @param id
-	 * @param name
-	 * @param age
-	 * @param address
-	 * @param salary
+	 * @param libelle
+	 * @param description
+	 * @param quantite_stock
+	 * @param quantite_disponible
+	 * @param prix
 	 * @return
 	 * @throws SQLException
 	 */
-	public boolean create (String id, String name, String age, String address, String salary) throws SQLException {
+	public boolean create (int id, String libelle, String description, int quantite_stock,  int quantite_disponible, double prix) throws SQLException {
 		conn = Pool.getConnection();
 		
 		boolean ret = true;
 		stmt = conn.createStatement();
         
 		String sql = 
-        "INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY) "
-        + "VALUES (" + id + ",'" + name + "'," + age + ",'" + address + "'," + salary + ")";
+        "INSERT INTO MARCHANDISE (id, libelle, description, quantite_stock, quantite_disponible, prix) "
+        + "VALUES (" + id + ",'" + libelle + "','" + description + "'," + quantite_stock + "," + quantite_disponible + "," + prix + ")";
         
 		int i =  stmt.executeUpdate(sql);
         if(i != 1) {
@@ -62,17 +63,18 @@ public class Crud  {
 		ArrayList <String> ret = new ArrayList<String>();
 		stmt = conn.createStatement();
 
-		String sql = "SELECT * FROM company";
+		String sql = "SELECT * FROM marchandise";
 		ResultSet rs = stmt.executeQuery(sql);
 		
 		String line = "";
 		while ( rs.next() ) {
 			line = "";
 			line += " ID = " + rs.getInt("id");
-			line += " NAME = " + rs.getString("name");
-			line += " AGE = " + rs.getInt("age");
-			line += " ADDRESS = " + rs.getString("address");
-			line += " SALARY = " + rs.getInt("salary");
+			line += " libelle = " + rs.getString("libelle");
+			line += " description = " + rs.getString("description");
+			line += " quantite_stock = " + rs.getInt("quantite_stock");
+			line += " quantite_disponible = " + rs.getInt("quantite_disponible");
+			line += " prix " + rs.getDouble("prix");
 			ret.add(line);
 		}
 		
@@ -84,14 +86,15 @@ public class Crud  {
 	/**
 	 * UPDATE
 	 * @param id
-	 * @param name
-	 * @param age
-	 * @param address
-	 * @param salary
+	 * @param libelle
+	 * @param description
+	 * @param quantite_stock
+	 * @param quantite_disponible
+	 * @param prix
 	 * @return ret
 	 * @throws SQLException
 	 */
-	public boolean update (String id, String name, String age, String address, String salary) throws SQLException {
+	public boolean update (int id, String libelle, String description, int quantite_stock,  int quantite_disponible, double prix) throws SQLException {
 		conn = Pool.getConnection();
 		
 		boolean ret = true;
@@ -99,12 +102,13 @@ public class Crud  {
 		
 		// sql 
 		String sql = 
-				" UPDATE company "
+				" UPDATE marchandise "
 				+ "SET "
-				+ "name = '" + name + "'"
-				+ ", age = " + age + ""
-				+ ", address = '" + address + "'"
-				+ ", salary = " + salary + 
+				+ " libelle = '" + libelle + "'"
+				+ ", description = '" + description + "'"
+				+ ", quantite_stock = " + quantite_stock + ""
+				+ ", quantite_disponible = " + quantite_disponible +  ""
+				+ ", prix = " + prix +
 				" WHERE id = " + id;
 		
 		int i = stmt.executeUpdate(sql);
@@ -128,7 +132,7 @@ public class Crud  {
 		boolean ret = true;
 		stmt = conn.createStatement();
 		
-		String sql = "DELETE FROM company WHERE id =" + id; // sql
+		String sql = "DELETE FROM marchandise WHERE id =" + id; // sql
 		
 		int i = stmt.executeUpdate(sql);
 		if (i != 1) {
@@ -137,6 +141,22 @@ public class Crud  {
 		stmt.close();
 		Pool.release(conn);
 		return ret;
+	}
+	
+	public boolean emptyTable () throws SQLException {
+		conn = Pool.getConnection();
+		
+		boolean ret = false;
+		stmt = conn.createStatement();
+		
+		int result = stmt.executeUpdate("TRUNCATE marchandise");
+		
+		if(result == 0)
+		{
+			ret = true ;
+		}
+		
+		return ret ;
 	}
 	
 	public void close () {
