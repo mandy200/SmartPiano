@@ -15,27 +15,26 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+/**
+ * CrudGUI
+ * @author Tinhinane, Suriya
+ *
+ */
 class CrudGUI extends JFrame implements ActionListener {
     
 	JButton btnCreate, btnRead, btnUpdate, btnDelete; // buttons
-	Crud CRUD;
-	int idCPT;
-	String msg;
+	Crud CRUD; // new object crud
+	int idCPT; // counter
+	String msg; // message success or error
 	
 	public CrudGUI() throws SQLException {
 		
 		CRUD = new Crud ();
-		
 		CRUD.emptyTable(); // clean table
-		
-		idCPT = 1;
-		
-		//this.createEvent();
-		
-		this.setTitle("CRUD"); // Title
+		idCPT = 1; // initialize
+		this.setTitle("CRUD"); // title
 		
 		JPanel panneau = new JPanel(new FlowLayout());
-		
 		JLabel readLabel = new JLabel ();
 		
         btnCreate = new JButton("Ajouter une marchandise");
@@ -58,11 +57,8 @@ class CrudGUI extends JFrame implements ActionListener {
         panneau.add(btnRead, BorderLayout.CENTER);
         panneau.add(btnUpdate, BorderLayout.CENTER);
         panneau.add(btnDelete, BorderLayout.CENTER);
-        panneau.add(readLabel, BorderLayout.SOUTH);
      
         getContentPane().add(panneau, BorderLayout.CENTER);
-        
-        pack();
         
 		this.setSize(600, 400); // Window size
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Exit the application
@@ -70,10 +66,13 @@ class CrudGUI extends JFrame implements ActionListener {
 		this.setVisible(true); // Show component
 	}
 	
+	/**
+	 * Create Event
+	 */
 	public void createEvent () {
 		int id = idCPT;
 		String libelle = "Oreiller";
-		String description = "Coton";
+		String description = "En coton";
 		int quantite_stock = 13;
 		int quantite_disponible = 15;
 		double prix = 8.99;
@@ -81,13 +80,16 @@ class CrudGUI extends JFrame implements ActionListener {
 		try {
 			CRUD.create(id, libelle, description, quantite_stock, quantite_disponible, prix);
 			idCPT++;
-			msg = (" La marchandise " + id + "  a bien été crée !");
+			msg = (" La marchandise n°" + id + " a bien été crée !");
 		} catch (SQLException e1) {
-			msg = "Erreur ! Impossible de créer la marchandise.";
+			msg = "Erreur ! Impossible de créer la marchandise n°" + id + ".";
 		}
 		JOptionPane.showMessageDialog(this, msg);
 	}
 	
+	/**
+	 * Read Event
+	 */
 	public void readEvent () {
 		try {
 			msg = "";
@@ -106,9 +108,9 @@ class CrudGUI extends JFrame implements ActionListener {
 		JOptionPane.showMessageDialog(this, msg);
 	}
 	
-	
-
-	
+	/**
+	 * Update Event
+	 */
 	public void updateEvent () {
 		int id = 1;
 		try {
@@ -124,6 +126,9 @@ class CrudGUI extends JFrame implements ActionListener {
 		JOptionPane.showMessageDialog(this, msg);
 	}
 	
+	/**
+	 * Delete Event
+	 */
 	public void deleteEvent () {
 		int id = 1;
 		try {
