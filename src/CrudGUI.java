@@ -20,7 +20,7 @@ import javax.swing.JPanel;
  * @author Tinhinane, Suriya
  *
  */
-class CrudGUI extends JFrame implements ActionListener {
+public class CrudGUI extends JFrame implements ActionListener {
     
 	JButton btnCreate, btnRead, btnUpdate, btnDelete; // buttons
 	Crud CRUD; // new object crud
@@ -60,7 +60,7 @@ class CrudGUI extends JFrame implements ActionListener {
      
         getContentPane().add(panneau, BorderLayout.CENTER);
         
-		this.setSize(600, 400); // Window size
+		this.setSize(500, 150); // Window size
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Exit the application
 		this.setLocationRelativeTo(null); // Centering the window
 		this.setVisible(true); // Show component
@@ -92,8 +92,10 @@ class CrudGUI extends JFrame implements ActionListener {
 	 */
 	public void readEvent () {
 		try {
+			String[] entetes = {"Id", "Libelle", "description", "Quantité en stock", "Quantité disponible", "prix"};
 			msg = "";
 			ArrayList<String> List = CRUD.read();
+		
 			for(String s : List)
 			{
 				msg += s + "\n" ;
